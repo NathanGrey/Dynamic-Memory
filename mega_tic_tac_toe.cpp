@@ -1,72 +1,79 @@
-#include <iostream>
+#include <iostream> // Preprossesor
 #include <string>
 #include <cstdlib>
 #include <ctime>
+using namespace std; // Declaring namespace
 
-using namespace std;
-
-enum TicTacToeCases {
+enum SpaceCases {
         PLAYER_ONE = 'O',
         PLAYER_TWO = 'X',
         NEUTRAL    = '*'
     };
 
-void printGame(char [][20], int);
-void makeMove(char [][20], int, char);
-bool checkIfGameOver(char [][20], char, int, int);
+void PrintBoard(char [][20], int);
+void PlayerMove(char [][20], int, char);
+bool CheckIfGameOver(char [][20], char, int, int);
 
-int main(){
 
-    srand(time(NULL));
-    int decide = rand();
-    bool over = false;
-    int boardSize = 3;
-    int toWin = 3;
-    char player;
+int main()
+{
+	// Declaration of variables
+	
+	srand(time(NULL));
+	int Decide = rand();
+	bool GameOver = false;
+	int BoardSize = 3;
+	int WinningScore = 3;
+	char Player;
 
-    char ticTacToe[20][20];
+	char GameBoard[20][20]; // Tic Tac Toe Gameboard
 
-    cout<< "Choose the size of the board: ";
-    cin>> boardSize;
-    cout<< "Choose the amount of character in a row in order to win: ";
-    cin>> toWin;
+	cout << "Welcome to Mega Tic Tac Toe!\n";
+	cout << "Choose your board size:\n";
+	cin >> BoardSize;
 
-    for (int i = 0; i < boardSize; i++){
-        for (int j = 0; j < boardSize; j++){
-            ticTacToe[i][j] = static_cast<char>(NEUTRAL);
-        }
-    }
-    printGame(ticTacToe, boardSize);
+	// Computes the board size
+	    for (int i = 0; i < BoardSize; i++){ 
+	        for (int j = 0; j < BoardSize; j++){
+	        	GameBoard[i][j] = static_cast<char>(NEUTRAL);
+	        }
+	    }
 
-    while (!over){
+	// Function call to print game board
+	PrintBoard(GameBoard, BoardSize); 
 
-        if (decide % 2 == 0){
-            player = static_cast<char>(PLAYER_ONE);
-            makeMove(ticTacToe, boardSize, player);
-            printGame(ticTacToe, boardSize);
-            over = checkIfGameOver(ticTacToe, player, boardSize, toWin);
+	// Loop to keep playing until game over
+	while (!GameOver){
+
+        if (Decide % 2 == 0){
+            Player = static_cast<char>(PLAYER_ONE);
+            PlayerMove(GameBoard, BoardSize, Player);
+            PrintBoard(GameBoard, BoardSize);
+            GameOver = CheckIfGameOver(GameBoard, Player, BoardSize, WinningScore);
         }
 
         else{
-            player = static_cast<char>(PLAYER_TWO);
-            makeMove(ticTacToe, boardSize, player);
-            printGame(ticTacToe, boardSize);
-            over = checkIfGameOver(ticTacToe, player, boardSize, toWin);
+            Player = static_cast<char>(PLAYER_TWO);
+            PlayerMove(GameBoard, BoardSize, Player);
+            PrintBoard(GameBoard, BoardSize);
+            GameOver = CheckIfGameOver(GameBoard, Player, BoardSize, WinningScore);
         }
-        decide+=2;
+        Decide+=2;
     }
 }
 
-void printGame(char ticTacToe[][20], int boardSize){
-    for (int i = 0; i < boardSize; i++){
-        for (int j = 0; j < boardSize; j++){
-            cout<< ticTacToe[i][j]<< "   ";
+// Function to print the game board based on the user's input
+void PrintBoard(char GameBoard[][20], int BoardSize){
+    for (int i = 0; i < BoardSize; i++){
+        for (int j = 0; j < BoardSize; j++){
+            cout<< GameBoard[i][j]<< "   ";
         }
         cout<< "\n\n";
     }
 }
 
-void makeMove(char ticTacToe[][20], int boardSize, char player){
+
+void PlayerMove(char GameBoard[][20], int BoardSize, char Player){
 
     int i;
     int j;
@@ -76,7 +83,7 @@ void makeMove(char ticTacToe[][20], int boardSize, char player){
         cout<< "Player one decide position\n";
         cin>> i;
         cin>> j;
-        if (ticTacToe[i-1][j-1] == '*'){
+        if (GameBoard[i-1][j-1] == '*'){
             valid = true;
         }
         else{
@@ -84,53 +91,53 @@ void makeMove(char ticTacToe[][20], int boardSize, char player){
         }
     }
     cout<< "\n";
-    ticTacToe[i-1][j-1] = static_cast<char>(player);
+    GameBoard[i-1][j-1] = static_cast<char>(Player);
 }
 
-bool checkIfGameOver(char ticTacToe[][20], char player, int boardSize, int toWin){
+
+// Function to check if the game is over
+bool EndGame(char GameBoard[][20], char Player, int BoardSize, int WinningScore){
 
     //create a score matrix
-    int n = boardSize;
-    int **score = new int*[n];
+    int n = BoardSize;
+    int **Score = new int*[n];
     for (int i = 0; i < n; i++){
-        score[i] = new int[n]();
+        Score[i] = new int[n]();
     }
 
     //compute first row
     for (int i = 0; i < n; i++){
-        if (ticTacToe[0][i] == player)
-            score[0][i] = 1;
+        if (GameBoard[0][i] == Player)
+            Score[0][i] = 1;
     }
 
-    int max = 1; //counter for diagonal
+    int Max = 1; //counter for diagonal
     //compute the longest diagonal
     for (int i = 1; i < n; i++){
-        if (ticTacToe[i][0] == player) //compute most left column
-            score[i][0] = 1 + score[i - 1][1];
+        if (GameBoard[i][0] == Player) //compute most left column
+            Score[i][0] = 1 + Score[i - 1][1];
         for (int j = 1; j < n - 1 ; j++){
-            if (ticTacToe[i][j] == player){
-                score[i][j] = 1 + (score[i - 1][j - 1], score[i - 1][j + 1]); //select longest current diagonal
-                if (score[i][j] > max)
-                    max = score[i][j];
+            if (GameBoard[i][j] == Player){
+                Score[i][j] = 1 + n (Score[i - 1][j - 1], Score[i - 1][j + 1]); //select longest current diagonal
+                if (Score[i][j] > Max)
+                    Max = Score[i][j];
             }       
         }
-        if (ticTacToe[i][n - 1] == player) //compute most right column
-            score[i][n - 1] = 1 + score[i - 1][n - 2];
+        if (GameBoard[i][n - 1] == Player) //compute most right column
+            Score[i][n - 1] = 1 + Score[i - 1][n - 2];
 
                 //here we compute the maximum from the most left and right colums
-        if ((score[i][n - 1], score[i][0]) > max)
-            max = (score[i][n - 1], score[i][0]);
+        if (n(Score[i][n - 1], Score[i][0]) > Max)
+            Max = n(Score[i][n - 1], Score[i][0]);
     }
 
     //delete score matrix
-    for (int i = 0; i < boardSize; i++){
-        delete[] score[i];
+    for (int i = 0; i < BoardSize; i++){
+        delete[] Score[i];
     }
-    delete[] score;
+    delete[] Score;
 
-    if (max == toWin)
+    if (Max == WinningScore)
         return true;
     return false;
 }
-
-// http://www.cplusplus.com/forum/beginner/193682/
