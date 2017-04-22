@@ -1,6 +1,6 @@
 #include <iostream> // Preprossesor
 #include <string>
-#include <cstdlib>
+
 #include <ctime>
 using namespace std; // Declaring namespace
 
@@ -11,16 +11,15 @@ enum SpaceCases {
     };
 
 void PrintBoard(char [][20], int);
-void PlayerMove(char [][20], int, char);
+void PlayerOneMove(char [][20], int, char);
+void PlayerTwoMove(char [][20], int, char);
 bool CheckIfGameOver(char [][20], char, int, int);
 
 
 int main()
 {
 	// Declaration of variables
-	
-	srand(time(NULL));
-	int Decide = rand();
+	int Order = 0;
 	bool GameOver = false;
 	int BoardSize = 3;
 	int WinningScore = 3;
@@ -45,20 +44,20 @@ int main()
 	// Loop to keep playing until game over
 	while (!GameOver){
 
-        if (Decide % 2 == 0){
+        if (Order % 2 == 0){
             Player = static_cast<char>(PLAYER_ONE);
-            PlayerMove(GameBoard, BoardSize, Player);
+            PlayerOneMove(GameBoard, BoardSize, Player);
             PrintBoard(GameBoard, BoardSize);
             GameOver = CheckIfGameOver(GameBoard, Player, BoardSize, WinningScore);
         }
 
         else{
             Player = static_cast<char>(PLAYER_TWO);
-            PlayerMove(GameBoard, BoardSize, Player);
+            PlayerTwoMove(GameBoard, BoardSize, Player);
             PrintBoard(GameBoard, BoardSize);
             GameOver = CheckIfGameOver(GameBoard, Player, BoardSize, WinningScore);
         }
-        Decide+=2;
+        Order++;
     }
 }
 
@@ -73,7 +72,7 @@ void PrintBoard(char GameBoard[][20], int BoardSize){
 }
 
 
-void PlayerMove(char GameBoard[][20], int BoardSize, char Player){
+void PlayerOneMove(char GameBoard[][20], int BoardSize, char Player){
 
     int i;
     int j;
@@ -94,9 +93,30 @@ void PlayerMove(char GameBoard[][20], int BoardSize, char Player){
     GameBoard[i-1][j-1] = static_cast<char>(Player);
 }
 
+void PlayerTwoMove(char GameBoard[][20], int BoardSize, char Player){
+
+    int i;
+    int j;
+    bool valid = false;
+
+    while (!valid){
+        cout<< "Player two decide position\n";
+        cin>> i;
+        cin>> j;
+        if (GameBoard[i-1][j-1] == '*'){
+            valid = true;
+        }
+        else{
+            cout<< "This position is already taken\n";
+        }
+    }
+    cout<< "\n";
+    GameBoard[i-1][j-1] = static_cast<char>(Player);
+}
+
 
 // Function to check if the game is over
-bool EndGame(char GameBoard[][20], char Player, int BoardSize, int WinningScore){
+bool CheckIfGameOver(char GameBoard[][20], char Player, int BoardSize, int WinningScore){
 
     //create a score matrix
     int n = BoardSize;
@@ -118,7 +138,7 @@ bool EndGame(char GameBoard[][20], char Player, int BoardSize, int WinningScore)
             Score[i][0] = 1 + Score[i - 1][1];
         for (int j = 1; j < n - 1 ; j++){
             if (GameBoard[i][j] == Player){
-                Score[i][j] = 1 + n (Score[i - 1][j - 1], Score[i - 1][j + 1]); //select longest current diagonal
+              
                 if (Score[i][j] > Max)
                     Max = Score[i][j];
             }       
@@ -127,8 +147,7 @@ bool EndGame(char GameBoard[][20], char Player, int BoardSize, int WinningScore)
             Score[i][n - 1] = 1 + Score[i - 1][n - 2];
 
                 //here we compute the maximum from the most left and right colums
-        if (n(Score[i][n - 1], Score[i][0]) > Max)
-            Max = n(Score[i][n - 1], Score[i][0]);
+
     }
 
     //delete score matrix
