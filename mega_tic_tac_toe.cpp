@@ -1,12 +1,11 @@
 #include <iostream> // Preprossesor
 #include <string>
-
 #include <ctime>
 using namespace std; // Declaring namespace
 
 enum SpaceCases {
-        PLAYER_ONE = 'O',
-        PLAYER_TWO = 'X',
+        PLAYER_ONE = 'X',
+        PLAYER_TWO = 'O',
         NEUTRAL    = '*'
     };
 
@@ -138,7 +137,7 @@ bool CheckIfGameOver(char GameBoard[][20], char Player, int BoardSize, int Winni
             Score[i][0] = 1 + Score[i - 1][1];
         for (int j = 1; j < n - 1 ; j++){
             if (GameBoard[i][j] == Player){
-              
+                Score[i][j] = 1 + maximum (Score[i - 1][j - 1], Score[i - 1][j + 1]); //select longest current diagonal
                 if (Score[i][j] > Max)
                     Max = Score[i][j];
             }       
@@ -147,7 +146,8 @@ bool CheckIfGameOver(char GameBoard[][20], char Player, int BoardSize, int Winni
             Score[i][n - 1] = 1 + Score[i - 1][n - 2];
 
                 //here we compute the maximum from the most left and right colums
-
+         if (maximum(Score[i][n - 1], Score[i][0]) > max)
+            max = maximum(Score[i][n - 1], Score[i][0]);
     }
 
     //delete score matrix
