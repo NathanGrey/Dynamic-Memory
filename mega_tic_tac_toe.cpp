@@ -117,40 +117,38 @@ void PlayerTwoMove(char GameBoard[][20], int BoardSize, char Player){
 // Function to check if the game is over
 bool CheckIfGameOver(char GameBoard[][20], char Player, int BoardSize, int WinningScore){
 
-    //create a score matrix
+    //Score matrix
     int n = BoardSize;
     int **Score = new int*[n];
     for (int i = 0; i < n; i++){
         Score[i] = new int[n]();
     }
 
-    //compute first row
+    //First row
     for (int i = 0; i < n; i++){
         if (GameBoard[0][i] == Player)
             Score[0][i] = 1;
     }
 
-    int Max = 1; //counter for diagonal
-    //compute the longest diagonal
+    int Max = 1; // Counts diagonal
+    // Longest diagonal
     for (int i = 1; i < n; i++){
-        if (GameBoard[i][0] == Player) //compute most left column
+        if (GameBoard[i][0] == Player) //Left column
             Score[i][0] = 1 + Score[i - 1][1];
         for (int j = 1; j < n - 1 ; j++){
             if (GameBoard[i][j] == Player){
-                Score[i][j] = 1 + maximum (Score[i - 1][j - 1], Score[i - 1][j + 1]); //select longest current diagonal
+
                 if (Score[i][j] > Max)
                     Max = Score[i][j];
             }       
         }
-        if (GameBoard[i][n - 1] == Player) //compute most right column
+        if (GameBoard[i][n - 1] == Player) // Right column
             Score[i][n - 1] = 1 + Score[i - 1][n - 2];
 
-                //here we compute the maximum from the most left and right colums
-         if (maximum(Score[i][n - 1], Score[i][0]) > max)
-            max = maximum(Score[i][n - 1], Score[i][0]);
+     
     }
 
-    //delete score matrix
+    // Deletes score matrix
     for (int i = 0; i < BoardSize; i++){
         delete[] Score[i];
     }
@@ -160,3 +158,4 @@ bool CheckIfGameOver(char GameBoard[][20], char Player, int BoardSize, int Winni
         return true;
     return false;
 }
+
