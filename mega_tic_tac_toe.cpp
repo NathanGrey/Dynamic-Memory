@@ -4,16 +4,15 @@
 using namespace std; // Declaring namespace
 
 enum SpaceCases {
-        PLAYER_ONE = 'X',
-        PLAYER_TWO = 'O',
-        NEUTRAL    = '*'
+        Player_one = 'X',
+        Player_two = 'O',
+        Neutral    = '*'
     };
 
 void PrintBoard(char [][20], int);
 void PlayerOneMove(char [][20], int, char);
 void PlayerTwoMove(char [][20], int, char);
 bool CheckIfGameOver(char [][20], char, int, int);
-
 
 int main()
 {
@@ -33,7 +32,7 @@ int main()
 	// Computes the board size
 	    for (int i = 0; i < BoardSize; i++){ 
 	        for (int j = 0; j < BoardSize; j++){
-	        	GameBoard[i][j] = static_cast<char>(NEUTRAL);
+	        	GameBoard[i][j] = static_cast<char>(Neutral);
 	        }
 	    }
 
@@ -44,14 +43,14 @@ int main()
 	while (!GameOver){
 
         if (Order % 2 == 0){
-            Player = static_cast<char>(PLAYER_ONE);
+            Player = static_cast<char>(Player_one);
             PlayerOneMove(GameBoard, BoardSize, Player);
             PrintBoard(GameBoard, BoardSize);
             GameOver = CheckIfGameOver(GameBoard, Player, BoardSize, WinningScore);
         }
 
         else{
-            Player = static_cast<char>(PLAYER_TWO);
+            Player = static_cast<char>(Player_two);
             PlayerTwoMove(GameBoard, BoardSize, Player);
             PrintBoard(GameBoard, BoardSize);
             GameOver = CheckIfGameOver(GameBoard, Player, BoardSize, WinningScore);
@@ -69,7 +68,6 @@ void PrintBoard(char GameBoard[][20], int BoardSize){
         cout<< "\n\n";
     }
 }
-
 
 void PlayerOneMove(char GameBoard[][20], int BoardSize, char Player){
 
@@ -113,7 +111,6 @@ void PlayerTwoMove(char GameBoard[][20], int BoardSize, char Player){
     GameBoard[i-1][j-1] = static_cast<char>(Player);
 }
 
-
 // Function to check if the game is over
 bool CheckIfGameOver(char GameBoard[][20], char Player, int BoardSize, int WinningScore){
 
@@ -144,8 +141,6 @@ bool CheckIfGameOver(char GameBoard[][20], char Player, int BoardSize, int Winni
         }
         if (GameBoard[i][n - 1] == Player) // Right column
             Score[i][n - 1] = 1 + Score[i - 1][n - 2];
-
-     
     }
 
     // Deletes score matrix
@@ -158,4 +153,3 @@ bool CheckIfGameOver(char GameBoard[][20], char Player, int BoardSize, int Winni
         return true;
     return false;
 }
-
