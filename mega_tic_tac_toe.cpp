@@ -16,31 +16,38 @@ bool CheckIfGameOver(char [][20], char, int, int);
 
 int main()
 {
-	// Declaration of variables
-	int Order = 0;
-	bool GameOver = false;
-	int BoardSize = 3;
-	int WinningScore = 3;
-	char Player;
+    // Declaration of variables
+    int Order = 0;
+    bool GameOver = false;
+    int WinningScore = 3;
+    char Player;
+    char GameBoard[20][20]; // Tic Tac Toe Gameboard
 
-	char GameBoard[20][20]; // Tic Tac Toe Gameboard
+    // Declares the board's size and points to the user inputted size
+    int BoardSize;
+    int * ActualSize;
 
-	cout << "Welcome to Mega Tic Tac Toe!\n";
-	cout << "Choose your board size:\n";
-	cin >> BoardSize;
+    cout << "Welcome to Mega Tic Tac Toe!\n";
+    cout << "Choose your board size:\n";
+    cin >> BoardSize;
 
-	// Computes the board size
-	    for (int i = 0; i < BoardSize; i++){ 
-	        for (int j = 0; j < BoardSize; j++){
-	        	GameBoard[i][j] = static_cast<char>(Neutral);
-	        }
-	    }
+  // Computes the board size dynamically
+  ActualSize= new (nothrow) int[BoardSize];
+  if (ActualSize == nullptr)
+    cout << "Error: memory could not be allocated";
+  else
+  {
+     for (int i = 0; i < BoardSize; i++){ 
+            for (int j = 0; j < BoardSize; j++){
+                GameBoard[i][j] = static_cast<char>(Neutral);
+            }
+        }
+       
+    // Function call to print game board
+    PrintBoard(GameBoard, BoardSize); 
 
-	// Function call to print game board
-	PrintBoard(GameBoard, BoardSize); 
-
-	// Loop to keep playing until game over
-	while (!GameOver){
+    // Loop to keep playing until game over
+    while (!GameOver){
 
         if (Order % 2 == 0){
             Player = static_cast<char>(Player_one);
@@ -58,6 +65,8 @@ int main()
         Order++;
     }
 }
+  delete[] ActualSize;
+  }
 
 // Function to print the game board based on the user's input
 void PrintBoard(char GameBoard[][20], int BoardSize){
@@ -110,11 +119,9 @@ void PlayerTwoMove(char GameBoard[][20], int BoardSize, char Player){
     cout<< "\n";
     GameBoard[i-1][j-1] = static_cast<char>(Player);
 }
-
 // Function to check if the game is over
 bool CheckIfGameOver(char GameBoard[][20], char Player, int BoardSize, int WinningScore){
 
-    //Score matrix
     int n = BoardSize;
     int **Score = new int*[n];
     for (int i = 0; i < n; i++){
