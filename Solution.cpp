@@ -46,7 +46,7 @@ void printBoard()
 		{
 			if (board[i][j] == ' ')
 			{
-				cout << (char) 254 << " ";
+				cout << (char)254 << " ";
 			}
 			else
 			{
@@ -60,16 +60,16 @@ void printBoard()
 
 bool checkBoard()
 {
-	for (int i = 0; i < boardSize; ++j)
+	for (int i = 0; i < boardSize; ++i)
 	{
 		for (int j = 0; j < boardSize; ++j)
 		{
 			if (board[i][j] != ' ')
 			{
-				if ((i - 1) >= 0 && (j - 1) >= 0 && (i + 1) < boardSize && (j+1) < boardSize)
+				if ((i - 1) >= 0 && (j - 1) >= 0 && (i + 1) < boardSize && (j + 1) < boardSize)
 				{
 					// Diagonal down
-					if (board[i - 1][j - 1] == board[i][j] && board[i + 1][j+1] == board[i][j])
+					if (board[i - 1][j - 1] == board[i][j] && board[i + 1][j + 1] == board[i][j])
 						return true;
 					// Diagonal up
 					if (board[i + 1][j - 1] == board[i][j] && board[i - 1][j + 1] == board[i][j])
@@ -84,7 +84,7 @@ bool checkBoard()
 				if ((j - 1) >= 0 && (j + 1) < boardSize)
 				{
 					// Horizontal
-					if (board[i][j - 1] == board[i][j] && board[i][j+ 1] == board[i][j])
+					if (board[i][j - 1] == board[i][j] && board[i][j + 1] == board[i][j])
 						return true;
 				}
 			}
@@ -136,11 +136,11 @@ void runGame()
 		{
 			if (playerXTurn)
 			{
-				board[y][x] = 'X';
+				board[y][x] = 'x';
 			}
 			else
 			{
-				board[y][x] = 'O';
+				board[y][x] = 'o';
 			}
 			playerXTurn = !playerXTurn;
 		}
@@ -162,11 +162,11 @@ void runGame()
 		{
 			if (playerXTurn)
 			{
-				cout << "Player O WINS!!!" << endl;
+				cout << "Player o WINS!!!" << endl;
 			}
 			else
 			{
-				cout << "Player X WINS!!!" << endl;
+				cout << "Player x WINS!!!" << endl;
 			}
 		}
 	} while (!gameOver);
@@ -211,7 +211,7 @@ int main()
 		do
 		{
 			cout << "Please enter a valid square board size." << endl;
-			cout << "The minimum size is 3." << end;
+			cout << "The minimum size is 3." << endl;
 			cout << "Size: ";
 			cin >> boardSize;
 		} while (boardSize < 3);
@@ -219,11 +219,12 @@ int main()
 		cout << endl << "You board will be (" << boardSize << ", " << boardSize << ")" << endl;
 
 		allocateBoard();
-		initializeBoard();
+		initalizeBoard();
 		printBoard();
 		runGame();
 		deleteBoard();
 		playAgain();
+
 	} while (keepPlaying);
 
 	system("pause");
