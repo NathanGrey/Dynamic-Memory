@@ -64,17 +64,32 @@ void PlayerOneMove(){ // Player One's movement
     while (!Valid){
         cout << "Player One | Choose a space." << endl;
         cin >> i;
+              while (cin.fail()) 
+       {
+            cout << "Invalid input." << endl;
+            cin.clear();
+            cin.ignore(256,'\n');
+            cin >> i;
+        }
         cin >> j;
-        if (GameBoard[i-1][j-1] == '*'){
+         while (cin.fail()) 
+       {
+            cout << "Invalid input." << endl;
+            cin.clear();
+            cin.ignore(256,'\n');
+            cin >> j;
+        }
+if (GameBoard[i-1][j-1] == '*'){
             Valid = true;
         }
         else{
             cout << "This space is already taken." << endl;
         }
 
+                    
     }
-    cout << endl;
-    GameBoard[i-1][j-1] = static_cast<char>(Player); 
+    cout<< endl;
+    GameBoard[i-1][j-1] = static_cast<char>(Player);
 }
 
 void PlayerTwoMove(){ // Player Two's movement
@@ -85,8 +100,22 @@ void PlayerTwoMove(){ // Player Two's movement
     while (!Valid){
         cout << "Player Two | Choose a space." << endl;
         cin >> i;
+               while (cin.fail()) 
+       {
+            cout << "Invalid input." << endl;
+            cin.clear();
+            cin.ignore(256,'\n');
+            cin >> i;
+        }
         cin >> j;
-        if (GameBoard[i-1][j-1] == '*'){
+         while (cin.fail()) 
+       {
+            cout << "Invalid input." << endl;
+            cin.clear();
+            cin.ignore(256,'\n');
+            cin >> j;
+        }
+if (GameBoard[i-1][j-1] == '*'){
             Valid = true;
         }
         else{
@@ -135,7 +164,13 @@ int main() // Main program
         cout << "Choose a board size that is greater than or equal to 3." << endl << endl;
 
         cin >> BoardSize; // Declares the board's size 
-        
+        while (cin.fail()) 
+       {
+            cout << "Invalid input." << endl;
+            cin.clear();
+            cin.ignore(256,'\n');
+            cin >> BoardSize;
+        }
     } while (BoardSize < 3);
         // Allocates the board size dynamically
         GameBoard = new char*[BoardSize];
