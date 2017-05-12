@@ -64,15 +64,17 @@ void PlayerOneMove(){ // Player One's movement
     while (!Valid){
         cout << "Player One | Choose a space." << endl;
         cin >> i;
-              while (cin.fail()) 
+        while (cin.fail()) // Checks if input is an integer 
        {
             cout << "Invalid input." << endl;
             cin.clear();
             cin.ignore(256,'\n');
             cin >> i;
         }
+
         cin >> j;
-         while (cin.fail()) 
+
+         while (cin.fail()) // Checks if input is an integer 
        {
             cout << "Invalid input." << endl;
             cin.clear();
@@ -99,16 +101,20 @@ void PlayerTwoMove(){ // Player Two's movement
 
     while (!Valid){
         cout << "Player Two | Choose a space." << endl;
+
         cin >> i;
-               while (cin.fail()) 
+
+        while (cin.fail()) // Checks if input is an integer 
        {
             cout << "Invalid input." << endl;
             cin.clear();
             cin.ignore(256,'\n');
             cin >> i;
         }
+
         cin >> j;
-         while (cin.fail()) 
+
+        while (cin.fail()) 
        {
             cout << "Invalid input." << endl;
             cin.clear();
@@ -134,7 +140,7 @@ bool BoardFull() // Checks if the board is filled
     {
         for (int j = 0; j < BoardSize; ++j)
         {
-            if (GameBoard[i][j] == Player)
+            if (GameBoard[i][j] == '*')
             {
                 return false;
             }
@@ -164,9 +170,9 @@ int main() // Main program
         cout << "Choose a board size that is greater than or equal to 3." << endl << endl;
 
         cin >> BoardSize; // Declares the board's size 
-        while (cin.fail()) 
+        while (cin.fail()) // Checks if input is an integer 
        {
-            cout << "Invalid input." << endl;
+            cout << "Invalid input." << endl; 
             cin.clear();
             cin.ignore(256,'\n');
             cin >> BoardSize;
@@ -199,7 +205,7 @@ int main() // Main program
             GameOver = CheckIfGameOver();
             if (!GameOver && BoardFull())
                     {
-                        cout << "You both tied!" << endl;
+                        cout << "It's a tie!" << endl;
                         break;
                         return 0;
                     }
@@ -224,7 +230,7 @@ int main() // Main program
             
             if (!GameOver && BoardFull())
                     {
-                        cout << "You both tied!" << endl;
+                        cout << "It's a tie!" << endl;
                         break;
                         return 0;
                     }
@@ -241,7 +247,6 @@ int main() // Main program
                             return 0;
                         }
                     }
-
     }
         DeleteBoard(); // Manages the memory by deleting the board
         
